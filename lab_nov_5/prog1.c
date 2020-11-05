@@ -5,7 +5,7 @@ int main()
     int score, count = 1;
     float sum_score = 0, avg_score;
 repeat:
-    printf("\nEnter the score of player no %d : ", count);
+    printf("Enter the score of player no %d : ", count);
     scanf("%d", &score);
     sum_score += score;
     count++;
