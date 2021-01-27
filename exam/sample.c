@@ -1,38 +1,87 @@
-/*3. Declare a structure in the name people with the following data members:
-Name
-Age
-Sex. 
-Take an array of size 10 of type people. Write a programme to assign values to all data members of the array and write a function to display  it in the following format if age of the person is greater than p, where p = Your Roll No % 10 + 10:
+#include <bits/stdc++.h>
 
-Sl No. Name Age Sex DOB
-*/
-#include <stdio.h>
-struct people
+using namespace std;
+
+vector<string> split_string(string);
+
+// Complete the sockMerchant function below.
+int sockMerchant(int n, vector<int> ar)
 {
-    char name[10];
-    int age;
-    char sex;
-    char dob[10];
-} x[10];
-void printdata()
-{
-    printf("Sl No   name    age    dob\n");
-    for (int i = 0; i <= 9; i++)
+    int f[n], i;
+    int c = 0;
+
+    for (i = 0; i < n; i++)
     {
-        if (x[i].sex == 'f' || x[i].sex == 'F')
-        {
-            printf("%d  %s  %d  %s\n", (i + 1), x[i].name, x[i].age, x[i].dob);
-        }
+        f[i] = 0;
+        f[ar.at(i)]++;
     }
+    //counting the total number of pairs
+
+    for (i = 1; i <= 100; i++)
+        c += f[i] / 2;
+
+    return c;
 }
+
 int main()
 {
+    ofstream fout(getenv("OUTPUT_PATH"));
 
-    for (int i = 0; i <= 9; i++)
+    int n;
+    cin >> n;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    string ar_temp_temp;
+    getline(cin, ar_temp_temp);
+
+    vector<string> ar_temp = split_string(ar_temp_temp);
+
+    vector<int> ar(n);
+
+    for (int i = 0; i < n; i++)
     {
-        printf("Enter name,age,sex and dob\n");
-        scanf("%s %d %c %s", x[i].name, &x[i].age, &x[i].sex, x[i].dob);
+        int ar_item = stoi(ar_temp[i]);
+
+        ar[i] = ar_item;
     }
-    printdata();
+
+    int result = sockMerchant(n, ar);
+
+    fout << result << "\n";
+
+    fout.close();
+
     return 0;
+}
+
+vector<string> split_string(string input_string)
+{
+    string::iterator new_end = unique(input_string.begin(), input_string.end(), [](const char &x, const char &y) {
+        return x == y and x == ' ';
+    });
+
+    input_string.erase(new_end, input_string.end());
+
+    while (input_string[input_string.length() - 1] == ' ')
+    {
+        input_string.pop_back();
+    }
+
+    vector<string> splits;
+    char delimiter = ' ';
+
+    size_t i = 0;
+    size_t pos = input_string.find(delimiter);
+
+    while (pos != string::npos)
+    {
+        splits.push_back(input_string.substr(i, pos - i));
+
+        i = pos + 1;
+        pos = input_string.find(delimiter, i);
+    }
+
+    splits.push_back(input_string.substr(i, min(pos, input_string.length()) - i + 1));
+
+    return splits;
 }
